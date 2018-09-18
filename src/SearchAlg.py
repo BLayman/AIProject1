@@ -58,9 +58,9 @@ for row in map:
         y = node.yCoor
         for i in range(y-1, y + 2):
             for j in range(x - 1,x + 2):
-                # if we are not using the coordinates of the center node, and it's in bounds,
+                # if we are not using the coordinates of the center node, and it's in bounds, and it's not a wall
                 # then add it's neighbor to it
-                if(not ((i == y) and (j == x)) and i >= 0 and j >= 0 and i < len(map) and j < len(row)):
+                if(not ((i == y) and (j == x)) and i >= 0 and j >= 0 and i < len(map) and j < len(row) and not map[i][j].char == '%'):
                     node.addNeighbor(map[i][j])
 
 # printNeighbors(map)

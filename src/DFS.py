@@ -15,7 +15,7 @@ class DFS:
                     neighbor.visited = True
                     # the player can only move to blank spots
                     if(neighbor.char == ' '):
-                        neighbor.char = '+' # + indicates space has been visited
+                        neighbor.char = '.' # . indicates space has been visited
                         # push neighbor onto frontier stack
                         self.frontier.append(neighbor)
                     elif (neighbor.char == '*'):
@@ -23,7 +23,7 @@ class DFS:
             self.printMap()
             print("\n")
 
-    # print maze to make sure map has been filled (for testing)
+    # print maze to make sure map has been filled
     def printMap(self):
         for row in self.map:
             for node in row:

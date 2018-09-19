@@ -1,5 +1,6 @@
 from src.Node import Node
-from src.DFS import DFS
+from src.Search import DFS
+from src.Search import BFS
 
 ## functions for testing if map is correct##
 
@@ -33,7 +34,7 @@ map = [] # data structure to store map information during search
 frontier = []
 
 # read in file to fill in map
-lines = [line.rstrip('\n') for line in open('mediumMaze.txt')]
+lines = [line.rstrip('\n') for line in open('openMaze.txt')]
 
 for i in range(len(lines)):
     row = []
@@ -79,8 +80,9 @@ for row in map:
 # printNeighbors(map)
 
 # run depth first search
-dfs = DFS(map, frontier)
-dfs.search()
+#dfs = DFS(map, frontier)
+bfs = BFS(map, frontier)
+bfs.search()
 
 
 

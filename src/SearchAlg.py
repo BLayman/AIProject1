@@ -80,9 +80,9 @@ for row in map:
 # printNeighbors(map)
 
 # run depth first search
-#dfs = DFS(map, frontier)
-bfs = BFS(map, frontier)
-bfs.search()
+dfs = DFS(map, frontier)
+#bfs = BFS(map, frontier)
+dfs.search()
 
 
 

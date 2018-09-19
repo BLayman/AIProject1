@@ -14,20 +14,20 @@ class Search:
         while not searchComplete:
             # pop node off of frontier stack
             frontierNode = self.remove()
-            frontierNode.char = '.'  # . indicates space has been visited
+            frontierNode.char = 'X'  # . indicates space has been visited
             for neighbor in frontierNode.neighbors:
                 # if neighbor hasn't already been visited
                 if(not neighbor.visited):
                     neighbor.visited = True
                     # the player can only move to blank spots
                     if(neighbor.char == ' '):
-
                         # push neighbor onto frontier stack
                         self.frontier.append(neighbor)
                     elif (neighbor.char == '*'):
                         searchComplete = True
             self.printMap()
             print("\n")
+            frontierNode.char = '.'
 
     def remove(self):
         pass

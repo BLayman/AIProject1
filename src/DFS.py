@@ -9,13 +9,14 @@ class DFS:
         while not searchComplete:
             # pop node off of frontier stack
             frontierNode = self.frontier.pop()
+            frontierNode.char = '.'  # . indicates space has been visited
             for neighbor in frontierNode.neighbors:
                 # if neighbor hasn't already been visited
                 if(not neighbor.visited):
                     neighbor.visited = True
                     # the player can only move to blank spots
                     if(neighbor.char == ' '):
-                        neighbor.char = '.' # . indicates space has been visited
+
                         # push neighbor onto frontier stack
                         self.frontier.append(neighbor)
                     elif (neighbor.char == '*'):

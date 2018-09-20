@@ -34,7 +34,7 @@ map = [] # data structure to store map information during search
 frontier = []
 
 # read in file to fill in map
-lines = [line.rstrip('\n') for line in open('openMaze.txt')]
+lines = [line.rstrip('\n') for line in open('mediumMaze.txt')]
 
 for i in range(len(lines)):
     row = []
@@ -44,6 +44,7 @@ for i in range(len(lines)):
         node = Node(lines[i][j], i, j)
         # if start node, append to frontier
         if(lines[i][j] == 'P'):
+            node.startNode = True
             frontier.append(node)
         # append to row of map
         row.append(node)

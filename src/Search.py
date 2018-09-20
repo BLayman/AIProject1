@@ -19,6 +19,7 @@ class Search:
                 # if neighbor hasn't already been visited
                 if(not neighbor.visited):
                     neighbor.visited = True
+                    neighbor.foundBy = frontierNode
                     # the player can only move to blank spots
                     if(neighbor.char == ' '):
                         # push neighbor onto frontier stack
@@ -28,6 +29,15 @@ class Search:
             self.printMap()
             print("\n")
             frontierNode.char = '.'
+        path = False
+        nextNode = frontierNode
+        while not path:
+            nextNode.char = 'P'
+            nextNode = nextNode.foundBy
+            if nextNode.startNode:
+                path = True
+        self.printMap()
+
 
     def remove(self):
         pass

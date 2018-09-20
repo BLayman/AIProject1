@@ -6,6 +6,8 @@ class Node:
         self.xCoor = xCoor
         self.yCoor = yCoor
         self.neighbors = []
+        self.foundBy = None
+        self.startNode = False
 
     def addNeighbor(self, newNeighbor):
         self.neighbors.append(newNeighbor)

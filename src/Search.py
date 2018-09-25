@@ -51,12 +51,12 @@ class BFS(Search):
 
 class greedyBest(Search):
     def remove(self):
-        return self.frontier.get()
+        return self.frontier.get()[1]
     def add(self, node):
         self.frontier.put((node.distanceFromGoal, node))
 
 class aStar(Search):
     def remove(self):
-        return self.frontier.get()
+        return self.frontier.get()[1]
     def add(self, node):
         self.frontier.put(((node.distanceFromGoal + node.distanceFromStart), node))

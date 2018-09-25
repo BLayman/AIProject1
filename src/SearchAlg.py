@@ -128,7 +128,7 @@ if __name__ == '__main__':
     # Makes priority queue from the frontier, also only necessary for heuristic searches
     frontierPQ = PriorityQueue()
     frontierPQ.put((0,frontier.pop()))
-    gb = GreedyBest(map, frontierPQ)
+    gb = aStar(map, frontierPQ)
     gb.search()
 
     #dfs = DFS(map, frontier)

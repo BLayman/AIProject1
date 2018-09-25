@@ -9,10 +9,12 @@ class Search:
             for node in row:
                 print(node.char, end='')
             print()
+    def add(self, node):
+        self.frontier.append(node)
     def search(self):
         searchComplete = False
         while not searchComplete:
-            # pop node off of frontier stack
+            # Remove a node from the frontier given the search's specifications
             frontierNode = self.remove()
             frontierNode.char = 'X'  # . indicates space has been visited
             for neighbor in frontierNode.neighbors:
@@ -21,10 +23,10 @@ class Search:
                     neighbor.visited = True
                     neighbor.foundBy = frontierNode
                     # the player can only move to blank spots
-                    if(neighbor.char == ' '):
+                    if neighbor.char == ' ':
                         # push neighbor onto frontier stack
-                        self.frontier.append(neighbor)
-                    elif (neighbor.char == '*'):
+                        self.add(neighbor)
+                    elif neighbor.char == '*':
                         searchComplete = True
             self.printMap()
             print("\n")
@@ -38,10 +40,6 @@ class Search:
                 path = True
         self.printMap()
 
-
-    def remove(self):
-        pass
-
 class DFS(Search):
     #The order in which nodes are removed from the stack
     def remove(self):
@@ -51,8 +49,14 @@ class BFS(Search):
     def remove(self):
         return self.frontier.pop(0)
 
+class greedyBest(Search):
+    def remove(self):
+        return self.frontier.get()
+    def add(self, node):
+        self.frontier.put((node.distanceFromGoal, node))
 
-
-
-
-
+class aStar(Search):
+    def remove(self):
+        return self.frontier.get()
+    def add(self, node):
+        self.frontier.put(((node.distanceFromGoal + node.distanceFromStart), node))

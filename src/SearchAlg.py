@@ -2,8 +2,9 @@ from src.Node import Node
 from src.Node import HeuristicNode
 from src.Search import DFS
 from src.Search import BFS
-from src.Search import greedyBest
+from src.Search import GreedyBest
 from queue import PriorityQueue
+from src.Search import aStar
 
 ## functions for testing if map is correct##
 
@@ -69,10 +70,10 @@ def heurstic_map(lines):
             if(lines[i][j] == 'P'):
                 node.startNode = True
                 frontier.append(node)
-                startCoor = (i,j)
+                startCoor = (j,i)
             # This won't be needed for greedy best but it seemed stupid to make a whole new function
             if (lines [i][j] == '*'):
-                goalCoor = (i, j)
+                goalCoor = (j, i)
                 node.goalNode = True
             # append to row of map
             row.append(node)
@@ -127,7 +128,7 @@ if __name__ == '__main__':
     # Makes priority queue from the frontier, also only necessary for heuristic searches
     frontierPQ = PriorityQueue()
     frontierPQ.put((0,frontier.pop()))
-    gb = greedyBest(map, frontierPQ)
+    gb = GreedyBest(map, frontierPQ)
     gb.search()
 
     #dfs = DFS(map, frontier)

@@ -17,6 +17,7 @@ class Search:
             # Remove a node from the frontier given the search's specifications
             frontierNode = self.remove()
             frontierNode.char = 'X'  # . indicates space has been visited
+            print(frontierNode.distanceFromGoal)
             for neighbor in frontierNode.neighbors:
                 # if neighbor hasn't already been visited
                 if(not neighbor.visited):
@@ -49,7 +50,7 @@ class BFS(Search):
     def remove(self):
         return self.frontier.pop(0)
 
-class greedyBest(Search):
+class GreedyBest(Search):
     def remove(self):
         return self.frontier.get()[1]
     def add(self, node):

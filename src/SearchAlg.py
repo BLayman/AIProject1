@@ -34,7 +34,7 @@ map = [] # data structure to store map information during search
 frontier = []
 
 # read in file to fill in map
-lines = [line.rstrip('\n') for line in open('openMaze.txt')]
+lines = [line.rstrip('\n') for line in open('largeMaze.txt')]
 
 for i in range(len(lines)):
     row = []
@@ -81,7 +81,7 @@ for row in map:
 
 # run depth first search
 #dfs = DFS(map, frontier)
-bfs = BFS(map, frontier)
+bfs = DFS(map, frontier)
 bfs.search()
 
 

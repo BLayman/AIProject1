@@ -5,6 +5,15 @@ from src.Search import BFS
 from src.Search import GreedyBest
 from queue import PriorityQueue
 from src.Search import aStar
+import enum
+
+class searchTechnique(enum.Enum):
+    greedyBest = 0
+    astar = 1
+    dfs = 2
+    bfs = 3
+
+
 
 ## functions for testing if map is correct##
 
@@ -57,8 +66,7 @@ def non_heurstic_map(lines):
 # Returns a map and a frontier with Heuristic Nodes
 def heurstic_map(lines):
     map = []
-    frontier = []
-    startCoor = None
+    startNode = None
     goalCoor = None
     for i in range(len(lines)):
         row = []
@@ -69,8 +77,7 @@ def heurstic_map(lines):
             # if start node, append to frontier
             if(lines[i][j] == 'P'):
                 node.startNode = True
-                frontier.append(node)
-                startCoor = (j,i)
+                startNode = node
             # This won't be needed for greedy best but it seemed stupid to make a whole new function
             if (lines [i][j] == '*'):
                 goalCoor = (j, i)
@@ -78,7 +85,7 @@ def heurstic_map(lines):
             # append to row of map
             row.append(node)
         map.append(row)
-    return map, frontier, startCoor, goalCoor
+    return map, startNode, goalCoor
 #printMap(map)
 
 
@@ -114,26 +121,51 @@ def addNeighbors(map):
 # run depth first search
 
 if __name__ == '__main__':
+
+    # use enum (see top) to choose search technique
+    technique = searchTechnique.astar
+
+
     # read in file to fill in map
+
     lines = [line.rstrip('\n') for line in open('openMaze.txt')]
-    map, frontier, startCoor, goalCoor = heurstic_map(lines)
-    addNeighbors(map)
-    # only needed for A* and Greedy Best
 
-    for row in map:
-        for node in row:
-            if not node.goalNode:
-                node.setDistanceTo('start', startCoor)
-                node.setDistanceTo('goal', goalCoor)
-    # Makes priority queue from the frontier, also only necessary for heuristic searches
-    frontierPQ = PriorityQueue()
-    frontierPQ.put((0,frontier.pop()))
-    gb = aStar(map, frontierPQ)
-    gb.search()
+    ## Greedy Best and A* ##
+    if technique == searchTechnique.greedyBest or technique ==  searchTechnique.astar:
+        frontierPQ = None
+        map, startNode, goalCoor = heurstic_map(lines)
+        addNeighbors(map)
 
-    #dfs = DFS(map, frontier)
-    #bfs = BFS(map, frontier)
-    #dfs.search()
+        for row in map:
+            for node in row:
+                    if not node.goalNode:
+                            node.setCompareValueGreedy((goalCoor[0], goalCoor[1]))
+
+        # Makes priority queue from the frontier, also only necessary for heuristic searches
+        frontierPQ = PriorityQueue()
+        frontierPQ.put(startNode)
+
+        if technique == searchTechnique.greedyBest:
+            gb = GreedyBest(map, frontierPQ)
+            gb.search()
+
+        elif technique == searchTechnique.astar:
+            aStar = aStar(map, frontierPQ)
+            aStar.search()
+
+    ## DFS and BFS ##
+    else:
+        map, frontier = non_heurstic_map(lines)
+        addNeighbors(map)
+
+        if technique == searchTechnique.dfs:
+            dfs = DFS(map, frontier)
+            dfs.search()
+
+        elif technique == searchTechnique.bfs:
+            bfs = BFS(map, frontier)
+            bfs.search()
+
 
 
 

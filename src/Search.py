@@ -9,24 +9,31 @@ class Search:
             for node in row:
                 print(node.char, end='')
             print()
-    def add(self, node):
+
+    def add(self, node, ignore):
         self.frontier.append(node)
+
+    def remove(self):
+        pass
+
     def search(self):
         searchComplete = False
+        frontierNode = None
+
         while not searchComplete:
             # Remove a node from the frontier given the search's specifications
             frontierNode = self.remove()
             frontierNode.char = 'X'  # . indicates space has been visited
-            print(frontierNode.distanceFromGoal)
             for neighbor in frontierNode.neighbors:
                 # if neighbor hasn't already been visited
                 if(not neighbor.visited):
+                    neighbor.costSoFar = frontierNode.costSoFar + 1
                     neighbor.visited = True
                     neighbor.foundBy = frontierNode
                     # the player can only move to blank spots
                     if neighbor.char == ' ':
                         # push neighbor onto frontier stack
-                        self.add(neighbor)
+                        self.add(neighbor, frontierNode.costSoFar)
                     elif neighbor.char == '*':
                         searchComplete = True
             self.printMap()
@@ -52,12 +59,16 @@ class BFS(Search):
 
 class GreedyBest(Search):
     def remove(self):
-        return self.frontier.get()[1]
-    def add(self, node):
-        self.frontier.put((node.distanceFromGoal, node))
+        return self.frontier.get()
+
+    def add(self, node, ignore):
+        self.frontier.put(node)
 
 class aStar(Search):
     def remove(self):
-        return self.frontier.get()[1]
-    def add(self, node):
-        self.frontier.put(((node.distanceFromGoal + node.distanceFromStart), node))
+        return self.frontier.get()
+
+    def add(self, node, costSoFar):
+        node.compareValue += costSoFar
+        print(node.compareValue)
+        self.frontier.put(node)

@@ -10,29 +10,29 @@ class Node:
         self.neighbors = []
         self.foundBy = None
         self.startNode = False
+        self.costSoFar = 0
 
     def addNeighbor(self, newNeighbor):
         self.neighbors.append(newNeighbor)
 
+
+
 class HeuristicNode(Node):
     def __init__(self, char, yCoor, xCoor):
-        self.char = char
-        self.visited = False
-        self.xCoor = xCoor
-        self.yCoor = yCoor
-        self.neighbors = []
-        self.foundBy = None
-        self.startNode = False
-        self.distanceFromGoal = None
-        self.distanceFromStart = None
+        Node.__init__(self,char,yCoor,xCoor)
+
+        self.compareValue = None
         self.goalNode = False
 
     def __lt__(self, other):
-        return self.distanceFromGoal < other.distanceFromGoal
+        return self.compareValue < other.compareValue
 
-    def setDistanceTo(self, option, position):
+    # sets compare value to distance from goal
+    def setCompareValueGreedy(self, position):
+            #self.compareValue = distance.euclidean((self.xCoor, self.yCoor), position)
 
-        if option == 'start':
-            self.distanceFromStart = distance.euclidean((self.xCoor, self.yCoor), position)
-        elif option == 'goal':
-            self.distanceFromGoal = distance.euclidean((self.xCoor, self.yCoor), position)
+            # manhattan distance
+            self.compareValue = abs(self.xCoor - position[0]) + abs(self.yCoor - position[1])
+
+
+

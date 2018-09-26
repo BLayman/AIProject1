@@ -123,7 +123,7 @@ def addNeighbors(map):
 if __name__ == '__main__':
 
     # use enum (see top) to choose search technique
-    technique = searchTechnique.bfs
+    technique = searchTechnique.astar
 
     # read in file to fill in map
 

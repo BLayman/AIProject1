@@ -29,7 +29,10 @@ class HeuristicNode(Node):
 
     # sets compare value to distance from goal
     def setCompareValueGreedy(self, position):
-            self.compareValue = distance.euclidean((self.xCoor, self.yCoor), position)
+            #self.compareValue = distance.euclidean((self.xCoor, self.yCoor), position)
+
+            # manhattan distance
+            self.compareValue = abs(self.xCoor - position[0]) + abs(self.yCoor - position[1])
 
 
 

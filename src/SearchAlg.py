@@ -125,6 +125,7 @@ if __name__ == '__main__':
     # use enum (see top) to choose search technique
     technique = searchTechnique.astar
 
+
     # read in file to fill in map
 
     lines = [line.rstrip('\n') for line in open('openMaze.txt')]

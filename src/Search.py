@@ -9,27 +9,37 @@ class Search:
             for node in row:
                 print(node.char, end='')
             print()
+    def add(self, node):
+        self.frontier.append(node)
     def search(self):
         searchComplete = False
         while not searchComplete:
-            # pop node off of frontier stack
+            # Remove a node from the frontier given the search's specifications
             frontierNode = self.remove()
-            frontierNode.char = '.'  # . indicates space has been visited
-            for i in range(len(frontierNode.neighbors)):
+            frontierNode.char = 'X'  # . indicates space has been visited
+            print(frontierNode.distanceFromGoal)
+            for neighbor in frontierNode.neighbors:
                 # if neighbor hasn't already been visited
-                if(not frontierNode.neighbors[i].visited):
-                    frontierNode.neighbors[i].visited = True
+                if(not neighbor.visited):
+                    neighbor.visited = True
+                    neighbor.foundBy = frontierNode
                     # the player can only move to blank spots
-                    if(frontierNode.neighbors[i].char == ' '):
+                    if neighbor.char == ' ':
                         # push neighbor onto frontier stack
-                        self.frontier.append(frontierNode.neighbors[i])
-                    elif (frontierNode.neighbors[i].char == '*'):
+                        self.add(neighbor)
+                    elif neighbor.char == '*':
                         searchComplete = True
             self.printMap()
             print("\n")
-
-    def remove(self):
-        pass
+            frontierNode.char = '.'
+        path = False
+        nextNode = frontierNode
+        while not path:
+            nextNode.char = 'P'
+            nextNode = nextNode.foundBy
+            if nextNode.startNode:
+                path = True
+        self.printMap()
 
 class DFS(Search):
     #The order in which nodes are removed from the stack
@@ -40,8 +50,14 @@ class BFS(Search):
     def remove(self):
         return self.frontier.pop(0)
 
+class GreedyBest(Search):
+    def remove(self):
+        return self.frontier.get()[1]
+    def add(self, node):
+        self.frontier.put((node.distanceFromGoal, node))
 
-
-
-
-
+class aStar(Search):
+    def remove(self):
+        return self.frontier.get()[1]
+    def add(self, node):
+        self.frontier.put(((node.distanceFromGoal + node.distanceFromStart), node))

@@ -125,9 +125,7 @@ if __name__ == '__main__':
     # use enum (see top) to choose search technique
     technique = searchTechnique.astar
 
-
     # read in file to fill in map
-
     lines = [line.rstrip('\n') for line in open('openMaze.txt')]
 
     ## Greedy Best and A* ##
@@ -139,8 +137,11 @@ if __name__ == '__main__':
         for row in map:
             for node in row:
                     if not node.goalNode:
+                        if technique == searchTechnique.greedyBest:
                             node.setCompareValueGreedy((goalCoor[0], goalCoor[1]))
-
+                        # A*
+                        else:
+                            node.setGreedyValueAStar((goalCoor[0], goalCoor[1]))
         # Makes priority queue from the frontier, also only necessary for heuristic searches
         frontierPQ = PriorityQueue()
         frontierPQ.put(startNode)
@@ -151,7 +152,7 @@ if __name__ == '__main__':
 
         elif technique == searchTechnique.astar:
             aStar = aStar(map, frontierPQ)
-            aStar.search()
+            aStar.searchAStar()
 
     ## DFS and BFS ##
     else:

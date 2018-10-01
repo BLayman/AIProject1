@@ -10,7 +10,7 @@ class Search:
                 print(node.char, end='')
             print()
 
-    def add(self, node, ignore):
+    def add(self, node):
         self.frontier.append(node)
 
     def remove(self):
@@ -33,12 +33,12 @@ class Search:
                     # the player can only move to blank spots
                     if neighbor.char == ' ':
                         # push neighbor onto frontier stack
-                        self.add(neighbor, frontierNode.costSoFar)
+                        self.add(neighbor)
                     elif neighbor.char == '*':
                         searchComplete = True
             self.printMap()
             print("\n")
-            frontierNode.char = '.'
+            frontierNode.char =  "."#"(" + str(frontierNode.compareValue) + ")"
         path = False
         nextNode = frontierNode
         while not path:
@@ -47,6 +47,45 @@ class Search:
             if nextNode.startNode:
                 path = True
         self.printMap()
+
+
+    def searchAStar(self):
+        searchComplete = False
+        frontierNode = None
+
+        while not searchComplete:
+            # Remove a node from the frontier given the search's specifications
+            frontierNode = self.remove()
+            frontierNode.char = 'X'  # . indicates space has been visited
+            for neighbor in frontierNode.neighbors:
+                # can't do graph search for a star
+                #if(not neighbor.visited):
+                #neighbor.visited = True
+
+                # the player can only move to blank spots
+                if neighbor.char == ' ':
+                    # if discovering the node from this frontier node is more efficient
+                    if neighbor.compareValue > frontierNode.greedyValue + frontierNode.costSoFar + 1:
+                        # then set a new cost so far, and add to priority queue
+                        neighbor.foundBy = frontierNode
+                        neighbor.costSoFar = frontierNode.costSoFar + 1
+                        # push neighbor onto frontier stack
+                        self.add(neighbor)
+                elif neighbor.char == '*':
+                    searchComplete = True
+            self.printMap()
+            print("\n")
+            frontierNode.char =  "."#"(" + str(frontierNode.compareValue) + ")"
+        path = False
+        nextNode = frontierNode
+        while not path:
+            nextNode.char = 'P'
+            nextNode = nextNode.foundBy
+            if nextNode.startNode:
+                path = True
+        print("printing map")
+        self.printMap()
+
 
 class DFS(Search):
     #The order in which nodes are removed from the stack
@@ -61,14 +100,15 @@ class GreedyBest(Search):
     def remove(self):
         return self.frontier.get()
 
-    def add(self, node, ignore):
+    def add(self, node):
         self.frontier.put(node)
 
 class aStar(Search):
     def remove(self):
         return self.frontier.get()
 
-    def add(self, node, costSoFar):
-        node.compareValue += costSoFar
+    def add(self, node):
+        node.compareValue = node.costSoFar + node.greedyValue
+        #node.char = node.compareValue
         print(node.compareValue)
         self.frontier.put(node)

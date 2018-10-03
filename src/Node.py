@@ -21,18 +21,24 @@ class HeuristicNode(Node):
     def __init__(self, char, yCoor, xCoor):
         Node.__init__(self,char,yCoor,xCoor)
 
-        self.compareValue = None
+        self.compareValue = 999999
         self.goalNode = False
+        self.greedyValue = None
+        self.CostSoFar = 9999999
 
     def __lt__(self, other):
         return self.compareValue < other.compareValue
 
     # sets compare value to distance from goal
     def setCompareValueGreedy(self, position):
-            #self.compareValue = distance.euclidean((self.xCoor, self.yCoor), position)
+        #self.compareValue = distance.euclidean((self.xCoor, self.yCoor), position)
 
-            # manhattan distance
-            self.compareValue = abs(self.xCoor - position[0]) + abs(self.yCoor - position[1])
+        # manhattan distance
+        self.compareValue = abs(self.xCoor - position[0]) + abs(self.yCoor - position[1])
+
+    def setGreedyValueAStar(self, position):
+        # manhattan distance
+        self.greedyValue = abs(self.xCoor - position[0]) + abs(self.yCoor - position[1])
 
 
 

@@ -3,8 +3,8 @@ from src.Node import HeuristicNode
 from src.Search import DFS
 from src.Search import BFS
 from src.Search import GreedyBest
-from queue import PriorityQueue
 from src.Search import aStar
+from queue import PriorityQueue
 import enum
 
 class searchTechnique(enum.Enum):
@@ -118,15 +118,9 @@ def addNeighbors(map):
 
 # printNeighbors(map)
 
-# run depth first search
-
-if __name__ == '__main__':
-
-    # use enum (see top) to choose search technique
-    technique = searchTechnique.dfs
-
+def run(technique, map_name):
     # read in file to fill in map
-    lines = [line.rstrip('\n') for line in open('simpleMaze.txt')]
+    lines = [line.rstrip('\n') for line in open(map_name)]
 
     ## Greedy Best and A* ##
     if technique == searchTechnique.greedyBest or technique ==  searchTechnique.astar:
@@ -149,10 +143,12 @@ if __name__ == '__main__':
         if technique == searchTechnique.greedyBest:
             gb = GreedyBest(map, frontierPQ)
             gb.search()
+            return gb.map, gb.expandedCounter, gb.pathCounter
 
         elif technique == searchTechnique.astar:
             aStar = aStar(map, frontierPQ)
             aStar.searchAStar()
+            return aStar.map, aStar.expandedCounter, aStar.pathCounter
 
     ## DFS and BFS ##
     else:
@@ -162,10 +158,30 @@ if __name__ == '__main__':
         if technique == searchTechnique.dfs:
             dfs = DFS(map, frontier)
             dfs.search()
+            return dfs.map, dfs.expandedCounter, dfs.pathCounter
 
         elif technique == searchTechnique.bfs:
             bfs = BFS(map, frontier)
             bfs.search()
+            return bfs.map, bfs.expandedCounter, bfs.pathCounter
+
+def print_to_outfile(map, name, results):
+    with open('results.txt', 'a') as out:
+        out.write("%s : Nodes Expanded: %d Path Length: %d\n" % (name, int(results[0]), int(results[1])))
+        for row in map:
+            for node in row:
+                out.write(node.char)
+            out.write('\n')
+    out.close
+
+if __name__ == '__main__':
+    # use enum (see top) to choose search technique
+    technique = searchTechnique.astar
+    returned = run(technique, 'mediumMaze.txt')
+
+    print_to_outfile(returned[0], 'Breadth First Medium Maze', returned[1:])
+
+
 
 
 

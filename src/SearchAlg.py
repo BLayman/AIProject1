@@ -3,7 +3,7 @@ from src.Node import HeuristicNode
 from src.Search import DFS
 from src.Search import BFS
 from src.Search import GreedyBest
-from src.Search import aStar
+from src.Search import AStar
 from queue import PriorityQueue
 import enum
 
@@ -146,7 +146,7 @@ def run(technique, map_name):
             return gb.map, gb.expandedCounter, gb.pathCounter
 
         elif technique == searchTechnique.astar:
-            aStar = aStar(map, frontierPQ)
+            aStar = AStar(map, frontierPQ)
             aStar.searchAStar()
             return aStar.map, aStar.expandedCounter, aStar.pathCounter
 
@@ -172,17 +172,63 @@ def print_to_outfile(map, name, results):
             for node in row:
                 out.write(node.char)
             out.write('\n')
+        out.write('\n')
     out.close
 
 if __name__ == '__main__':
     # use enum (see top) to choose search technique
-    technique = searchTechnique.astar
-    returned = run(technique, 'mediumMaze.txt')
+    maze = "Medium Maze"
+    maze_file = 'mediumMaze.txt'
+    returned = run(searchTechnique.dfs, maze_file)
 
-    print_to_outfile(returned[0], 'Breadth First Medium Maze', returned[1:])
+    print_to_outfile(returned[0], 'Depth First %s' % maze, returned[1:])
 
+    returned = run(searchTechnique.bfs, maze_file)
 
+    print_to_outfile(returned[0], 'Breadth First %s' % maze, returned[1:])
 
+    returned = run(searchTechnique.greedyBest, maze_file)
 
+    print_to_outfile(returned[0], 'Greedy Best %s' % maze, returned[1:])
+
+    returned = run(searchTechnique.astar, maze_file)
+
+    print_to_outfile(returned[0], 'AStar %s' % maze, returned[1:])
+
+    maze = "Large Maze"
+    maze_file = 'largeMaze.txt'
+    returned = run(searchTechnique.dfs, maze_file)
+
+    print_to_outfile(returned[0], 'Depth First %s' % maze, returned[1:])
+
+    returned = run(searchTechnique.bfs, maze_file)
+
+    print_to_outfile(returned[0], 'Breadth First %s' % maze, returned[1:])
+
+    returned = run(searchTechnique.greedyBest, maze_file)
+
+    print_to_outfile(returned[0], 'Greedy Best %s' % maze, returned[1:])
+
+    returned = run(searchTechnique.astar, maze_file)
+
+    print_to_outfile(returned[0], 'AStar %s' % maze, returned[1:])
+
+    maze = "Open Maze"
+    maze_file = 'openMaze.txt'
+    returned = run(searchTechnique.dfs, maze_file)
+
+    print_to_outfile(returned[0], 'Depth First %s' % maze, returned[1:])
+
+    returned = run(searchTechnique.bfs, maze_file)
+
+    print_to_outfile(returned[0], 'Breadth First %s' % maze, returned[1:])
+
+    returned = run(searchTechnique.greedyBest, maze_file)
+
+    print_to_outfile(returned[0], 'Greedy Best %s' % maze, returned[1:])
+
+    returned = run(searchTechnique.astar, maze_file)
+
+    print_to_outfile(returned[0], 'AStar %s' % maze, returned[1:])
 
 

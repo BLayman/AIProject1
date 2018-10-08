@@ -51,7 +51,7 @@ class Search:
                         self.add(neighbor)
                     elif neighbor.char == '*':
                         searchComplete = True
-            print("\n")
+            #print("\n")
             frontierNode.char =  "."#"(" + str(frontierNode.compareValue) + ")"
         path = False
         nextNode = frontierNode
@@ -98,7 +98,7 @@ class Search:
                 elif neighbor.char == '*':
                     searchComplete = True
             #self.printMap()
-            print("\n")
+            #print("\n")
             frontierNode.char =  "."#"(" + str(frontierNode.compareValue) + ")"
         path = False
         nextNode = frontierNode
@@ -109,7 +109,7 @@ class Search:
             if nextNode.startNode:
                 path = True
                 nextNode.char = 'S'
-        print("printing map")
+        #print("printing map")
         self.printMap()
         print("Expanded counter: " + str(self.expandedCounter))
         print("Path counter: " + str(self.pathCounter))
@@ -147,5 +147,5 @@ class AStar(Search):
         # Adds the cost of the path taken of the node that discovered this node to the compare value
         # Adds the manhattan distance to the goal node to the compareValue
         node.compareValue = node.costSoFar + node.greedyValue
-        print(node.compareValue)
+        #print(node.compareValue)
         self.frontier.put(node)

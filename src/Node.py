@@ -10,7 +10,7 @@ class Node:
         self.neighbors = []
         self.foundBy = None
         self.startNode = False
-        self.costSoFar = 0
+        #self.costSoFar = 0
 
     def addNeighbor(self, newNeighbor):
         self.neighbors.append(newNeighbor)
@@ -24,7 +24,7 @@ class HeuristicNode(Node):
         self.compareValue = 999999
         self.goalNode = False
         self.greedyValue = None
-        self.CostSoFar = 9999999
+        self.costSoFar = 0
 
     def __lt__(self, other):
         return self.compareValue < other.compareValue

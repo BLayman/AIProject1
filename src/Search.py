@@ -118,7 +118,7 @@ class GreedyBest(Search):
     def add(self, node):
         self.frontier.put(node)
 
-class aStar(Search):
+class AStar(Search):
     def remove(self):
         return self.frontier.get()
 

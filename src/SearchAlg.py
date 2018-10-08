@@ -4,7 +4,8 @@ from src.Search import DFS
 from src.Search import BFS
 from src.Search import GreedyBest
 from queue import PriorityQueue
-from src.Search import aStar
+from src.Search import AStar
+
 import enum
 
 class searchTechnique(enum.Enum):
@@ -118,15 +119,12 @@ def addNeighbors(map):
 
 # printNeighbors(map)
 
-# run depth first search
-
-if __name__ == '__main__':
-
+def run():
     # use enum (see top) to choose search technique
-    technique = searchTechnique.dfs
+    technique = searchTechnique.greedyBest
 
     # read in file to fill in map
-    lines = [line.rstrip('\n') for line in open('simpleMaze.txt')]
+    lines = [line.rstrip('\n') for line in open('mediumMaze.txt')]
 
     ## Greedy Best and A* ##
     if technique == searchTechnique.greedyBest or technique ==  searchTechnique.astar:
@@ -151,7 +149,7 @@ if __name__ == '__main__':
             gb.search()
 
         elif technique == searchTechnique.astar:
-            aStar = aStar(map, frontierPQ)
+            aStar = AStar(map, frontierPQ)
             aStar.searchAStar()
 
     ## DFS and BFS ##
@@ -169,4 +167,7 @@ if __name__ == '__main__':
 
 
 
+# run depth first search
 
+if __name__ == '__main__':
+    run()
